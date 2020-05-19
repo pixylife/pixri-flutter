@@ -88,7 +88,7 @@ class EntityViewState extends State<EntityView> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
-                                color: Colors.redAccent,
+                                color: Colors.orangeAccent,
                                 elevation: 10,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,

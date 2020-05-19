@@ -57,6 +57,18 @@ class ApplicationViewState extends State<ApplicationView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
+               Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: RaisedButton(
+                      child: Text(
+                        "Generate Flutter Application",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    
+                    ),
+                  ),
                   Container(
                     padding: const EdgeInsets.only(left: 8, right: 8),
                     child: Text("Description",

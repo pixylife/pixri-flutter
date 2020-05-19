@@ -29,18 +29,9 @@ class FieldPageStage extends State<FieldPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Entities", style: TextStyle(color: Colors.white)),
-//          actions: <Widget>[
-//            IconButton(
-//              onPressed: () => Navigator.push(
-//                context,
-//                MaterialPageRoute(builder: (BuildContext context) => Post_From()),
-//              ),
-//              icon: Icon(Icons.add, color: Colors.white),
-//            )
-//          ],
+          title: Text("Fields", style: TextStyle(color: Colors.white)),
         ),
-        // body: FieldListView(),
+         body: FieldListView(entity:  widget.entity),
         floatingActionButton: FloatingActionButton(
           elevation: 10,
           backgroundColor: Theme.of(context).primaryColor,

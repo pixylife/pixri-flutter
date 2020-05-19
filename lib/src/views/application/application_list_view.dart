@@ -29,6 +29,7 @@ class ApplicationListViewState extends State<ApplicationListView> {
               future: apiService.getListOfApplication(),
               builder: (BuildContext context, AsyncSnapshot<List<Application>> snapshot) {
                 print(snapshot);
+                
                 if (snapshot.hasError) {
                   print(snapshot.error.toString());
 

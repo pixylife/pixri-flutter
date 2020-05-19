@@ -45,7 +45,7 @@ class FieldFromState extends State<FieldForm> {
       key: _scaffoldState,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        title: Text(widget.entity == null ? "Create new Field" : "Edit Field", style: TextStyle(color: Colors.white)),
+        title: Text(widget.field == null ? "Create new Field" : "Edit Field", style: TextStyle(color: Colors.white)),
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
