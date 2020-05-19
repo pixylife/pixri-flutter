@@ -4,6 +4,8 @@ import 'package:pixri/src/model/application.dart';
 import 'package:pixri/src/model/theme.dart' as AppTheme;
 import 'package:pixri/src/util/HexColor.dart';
 
+final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+
 class ThemeListView extends StatefulWidget {
   Application application;
 
@@ -25,6 +27,7 @@ class ThemeListViewState extends State<ThemeListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldState,
       appBar: AppBar(
         title: Text("Themes", style: TextStyle(color: Colors.white)),
       ),
@@ -37,8 +40,6 @@ class ThemeListViewState extends State<ThemeListView> {
               builder: (BuildContext context,
                   AsyncSnapshot<List<AppTheme.Theme>> snapshot) {
                 if (snapshot.hasError) {
-                  print(snapshot.error.toString());
-
                   /// put an alert and
                   /// show text as 'something went wrong'
 //                return Center(child: Text("Something wrong with message: ${snapshot.error.toString()}"));
@@ -95,71 +96,114 @@ class ThemeListViewState extends State<ThemeListView> {
                   ],
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Row(children: [
-                            Text("Primary Color : " + _theme.primaryColor,
-                                textAlign: TextAlign.justify),
-                            Icon(
-                              Icons.stop,
-                              color: HexColor(_theme.primaryColor),
+                child: new InkWell(
+                  onTap: () => showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("Info"),
+                          content:
+                              Text("Are you sure want to select this theme"),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text("Yes"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Application application = widget.application;
+                                application.selectedTheme = _theme.id;
+                                apiService
+                                    .updateApplicationTheme(application)
+                                    .then((isSuccess) {
+                                  if (isSuccess) {
+                                    setState(() {});
+                                    Scaffold.of(this.context).showSnackBar(
+                                        SnackBar(
+                                            content: Text("Theme Selected")));
+                                    Navigator.pop(
+                                        _scaffoldState.currentState.context);
+                                  } else {
+                                    Scaffold.of(this.context).showSnackBar(
+                                        SnackBar(content: Text("Failed")));
+                                  }
+                                });
+                              },
+                            ),
+                            FlatButton(
+                              child: Text("No"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
                             )
-                          ]),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Row(children: [
-                            Text("Secondary Color : " + _theme.secondaryColor,
-                                textAlign: TextAlign.justify),
-                            Icon(
-                              Icons.stop,
-                              color: HexColor(_theme.secondaryColor),
-                            )
-                          ]),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Row(children: [
-                            Text("Body Color : " + _theme.bodyColor,
-                                textAlign: TextAlign.justify),
-                            Icon(
-                              Icons.stop,
-                              color: HexColor(_theme.bodyColor),
-                            )
-                          ]),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Row(children: [
-                            Text(
-                                "Text Color AppBar : " + _theme.textColorAppBar,
-                                textAlign: TextAlign.justify),
-                            Icon(
-                              Icons.stop,
-                              color: HexColor(_theme.textColorAppBar),
-                            )
-                          ]),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Row(children: [
-                            Text("Text Color Body : " + _theme.textColorBody,
-                                textAlign: TextAlign.justify),
-                            Icon(
-                              Icons.stop,
-                              color: HexColor(_theme.textColorBody),
-                            )
-                          ]),
-                        ),
-                      ],
-                    ),
-                  ],
+                          ],
+                        );
+                      }),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Row(children: [
+                              Text("Primary Color : " + _theme.primaryColor,
+                                  textAlign: TextAlign.justify),
+                              Icon(
+                                Icons.stop,
+                                color: HexColor(_theme.primaryColor),
+                              )
+                            ]),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Row(children: [
+                              Text("Secondary Color : " + _theme.secondaryColor,
+                                  textAlign: TextAlign.justify),
+                              Icon(
+                                Icons.stop,
+                                color: HexColor(_theme.secondaryColor),
+                              )
+                            ]),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Row(children: [
+                              Text("Body Color : " + _theme.bodyColor,
+                                  textAlign: TextAlign.justify),
+                              Icon(
+                                Icons.stop,
+                                color: HexColor(_theme.bodyColor),
+                              )
+                            ]),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Row(children: [
+                              Text(
+                                  "Text Color AppBar : " +
+                                      _theme.textColorAppBar,
+                                  textAlign: TextAlign.justify),
+                              Icon(
+                                Icons.stop,
+                                color: HexColor(_theme.textColorAppBar),
+                              )
+                            ]),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Row(children: [
+                              Text("Text Color Body : " + _theme.textColorBody,
+                                  textAlign: TextAlign.justify),
+                              Icon(
+                                Icons.stop,
+                                color: HexColor(_theme.textColorBody),
+                              )
+                            ]),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

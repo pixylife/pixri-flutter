@@ -95,14 +95,14 @@ class FieldListViewState extends State<FieldListView> {
 
                     Container(
                       padding: const EdgeInsets.only(left: 8, right: 8),
-                      child: Text(_field.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      child: Text("Field Name : "+_field.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 8, right: 8),
-                      child: Text(_field.uiName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      child: Text("Field UI Name : "+_field.uiName, style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal)),
                     ), Container(
                       padding: const EdgeInsets.only(left: 8, right: 8),
-                      child: Text(_field.type, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      child: Text("Field Type : "+_field.type, style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal)),
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 8, right: 8),
@@ -171,6 +171,6 @@ class FieldListViewState extends State<FieldListView> {
       },
       itemCount: appList.length,
     )
-        : Center(child: Text("No Entities Found."));
+        : Center(child: Text("No Fields Found."));
   }
 }

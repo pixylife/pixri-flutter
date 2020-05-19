@@ -30,7 +30,7 @@ class FieldFromState extends State<FieldForm> {
 
   @override
   void initState() {
-    if (widget.entity != null) {
+    if (widget.field != null) {
       _isFieldNameValid = true;
       _controllerName.text = widget.field.name.toString();
       _controllerUIName.text = widget.field.uiName.toString();
@@ -65,7 +65,7 @@ class FieldFromState extends State<FieldForm> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: RaisedButton(
                       child: Text(
-                        widget.entity == null ? "Create Field": "Update Field ",
+                        widget.field == null ? "Create Field": "Update Field ",
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -92,7 +92,7 @@ class FieldFromState extends State<FieldForm> {
                             entityId: widget.entity.id
 
                         );
-                        if (widget.entity == null) {
+                        if (widget.field == null) {
                           _apiService.createField(field).then((isSuccess) {
                             setState(() => _isLoading = false);
                             if (isSuccess) {
@@ -186,10 +186,13 @@ class FieldFromState extends State<FieldForm> {
 
 
  Widget _buildDropDownType() {
-    return DropdownButton<String>(
+    return DropdownButtonFormField<String>(
       items: _types.map((String dropDownItem){
           return DropdownMenuItem<String>(value: dropDownItem,child: Text(dropDownItem),);
       }).toList(),
+            decoration: InputDecoration(
+        labelText: "Field Type",
+      ),
       onChanged: (String newValueSelected){
         setState(() {
           this._currentItemSelected = newValueSelected;

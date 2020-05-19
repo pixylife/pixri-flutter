@@ -4,6 +4,7 @@ import 'package:pixri/src/model/application_info.dart';
 import 'package:pixri/src/api/application_api_service.dart';
 import 'package:pixri/src/views/theme/theme_list_view.dart';
 import 'package:pixri/src/views/entity/entity_page.dart';
+import 'package:pixri/src/util/HexColor.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
@@ -34,8 +35,7 @@ class ApplicationViewState extends State<ApplicationView> {
         .then((ApplicationInfo value) => setState(() {
               _appInfo = value;
             }));
-
-    super.didChangeDependencies();
+       super.didChangeDependencies();
   }
 
   @override
@@ -111,6 +111,82 @@ class ApplicationViewState extends State<ApplicationView> {
                               textAlign: TextAlign.justify),
                         )
                       : Container(),
+
+                       Container(
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    child: Text("Selected Theme",
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold)),
+                  ),
+                  widget.application.theme != null
+                                        ? 
+                   Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          child: Row(children: [
+                            Text("Primary Color : " +  widget.application.theme.primaryColor,
+                                textAlign: TextAlign.justify),
+                            Icon(
+                              Icons.stop,
+                              color: HexColor( widget.application.theme.primaryColor),
+                            )
+                          ]),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          child: Row(children: [
+                            Text("Secondary Color : " + widget.application.theme.secondaryColor,
+                                textAlign: TextAlign.justify),
+                            Icon(
+                              Icons.stop,
+                              color: HexColor(widget.application.theme.secondaryColor),
+                            )
+                          ]),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          child: Row(children: [
+                            Text("Body Color : " + widget.application.theme.bodyColor,
+                                textAlign: TextAlign.justify),
+                            Icon(
+                              Icons.stop,
+                              color: HexColor(widget.application.theme.bodyColor),
+                            )
+                          ]),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          child: Row(children: [
+                            Text(
+                                "Text Color AppBar : " + widget.application.theme.textColorAppBar,
+                                textAlign: TextAlign.justify),
+                            Icon(
+                              Icons.stop,
+                              color: HexColor(widget.application.theme.textColorAppBar),
+                            )
+                          ]),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          child: Row(children: [
+                            Text("Text Color Body : " + widget.application.theme.textColorBody,
+                                textAlign: TextAlign.justify),
+                            Icon(
+                              Icons.stop,
+                              color: HexColor(widget.application.theme.textColorBody),
+                            )
+                          ]),
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+                : Container(),
                   _appInfo != null
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,

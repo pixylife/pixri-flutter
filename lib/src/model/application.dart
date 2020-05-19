@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:pixri/src/model/theme.dart';
+
 class Application {
   int id;
   String name;
@@ -9,16 +11,20 @@ class Application {
   String purpose;
   String baseURL;
   String company;
+  int selectedTheme;
+  Theme theme;
 
   Application(
       {this.id,
-        this.name,
-        this.type,
-        this.description,
-        this.ageGroup,
-        this.purpose,
-        this.baseURL,
-        this.company});
+      this.name,
+      this.type,
+      this.description,
+      this.ageGroup,
+      this.purpose,
+      this.baseURL,
+      this.company,
+      this.selectedTheme,
+      this.theme});
 
   Application.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -31,6 +37,10 @@ class Application {
     purpose = json['purpose'];
     baseURL = json['baseURL'];
     company = json['company'];
+    selectedTheme = json['selected_theme'];
+    theme = json['theme'] != null ? new Theme.fromJson(json['theme']) : null;
+
+    print("XXX"+theme.primaryColor);
   }
 
   Map<String, dynamic> toJson() {
@@ -45,6 +55,10 @@ class Application {
     data['purpose'] = this.purpose;
     data['baseURL'] = this.baseURL;
     data['company'] = this.company;
+    data['selected_theme'] = this.selectedTheme;
+    if (this.theme != null) {
+      data['theme'] = this.theme.toJson();
+    }
     return data;
   }
 }
@@ -66,7 +80,6 @@ class AgeGroup {
     data['max'] = this.max;
     return data;
   }
-
 }
 
 List<Application> applicationListFromJson(String jsonData) {
