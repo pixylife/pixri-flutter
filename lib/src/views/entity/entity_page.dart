@@ -28,15 +28,6 @@ class EntityPageStage extends State<EntityPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("Entities", style: TextStyle(color: Colors.white)),
-//          actions: <Widget>[
-//            IconButton(
-//              onPressed: () => Navigator.push(
-//                context,
-//                MaterialPageRoute(builder: (BuildContext context) => Post_From()),
-//              ),
-//              icon: Icon(Icons.add, color: Colors.white),
-//            )
-//          ],
         ),
         body: EntityListView(application: widget.application,),
         floatingActionButton: FloatingActionButton(

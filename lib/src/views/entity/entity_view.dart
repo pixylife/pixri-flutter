@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pixri/src/model/entity_info.dart';
 import 'package:pixri/src/model/entity.dart';
 import 'package:pixri/src/api/entity_api_service.dart';
+import 'package:pixri/src/views/fields/field_page.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
@@ -76,6 +77,13 @@ class EntityViewState extends State<EntityView> {
                             Container(
                               width: 200,
                               height: 100,
+                              child: new InkWell(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FieldPage(
+                                          entity: widget.entity)),
+                                ),
                               child: Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0),
@@ -98,6 +106,7 @@ class EntityViewState extends State<EntityView> {
                                     ),
                                   ],
                                 ),
+                              ),
                               ),
                             ),
                           ],

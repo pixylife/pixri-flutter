@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pixri/src/model/field.dart';
 import 'package:pixri/src/model/entity.dart';
 import 'package:pixri/src/api/field_api_service.dart';
-import 'package:pixri/src/model/application.dart';
 
 
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();

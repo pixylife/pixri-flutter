@@ -27,15 +27,6 @@ class ThemeListViewState extends State<ThemeListView> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Themes", style: TextStyle(color: Colors.white)),
-//          actions: <Widget>[
-//            IconButton(
-//              onPressed: () => Navigator.push(
-//                context,
-//                MaterialPageRoute(builder: (BuildContext context) => Post_From()),
-//              ),
-//              icon: Icon(Icons.add, color: Colors.white),
-//            )
-//          ],
       ),
       body: SafeArea(
         child: Container(
@@ -92,7 +83,6 @@ class ThemeListViewState extends State<ThemeListView> {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               AppTheme.Theme _theme = themeList[index];
-              print(int.tryParse(_theme.primaryColor.split("#")[1].toString()));
               return Container(
                 margin: EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -117,39 +107,55 @@ class ThemeListViewState extends State<ThemeListView> {
                             Text("Primary Color : " + _theme.primaryColor,
                                 textAlign: TextAlign.justify),
                             Icon(
-                              Icons.donut_large,
+                              Icons.stop,
                               color: HexColor(_theme.primaryColor),
                             )
                           ]),
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Text(
-                              "Secondary Color : " + _theme.secondaryColor,
-                              textAlign: TextAlign.justify),
+                          child: Row(children: [
+                            Text("Secondary Color : " + _theme.secondaryColor,
+                                textAlign: TextAlign.justify),
+                            Icon(
+                              Icons.stop,
+                              color: HexColor(_theme.secondaryColor),
+                            )
+                          ]),
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Text(
-                              "Secondary Color : " + _theme.secondaryColor,
-                              textAlign: TextAlign.justify),
+                          child: Row(children: [
+                            Text("Body Color : " + _theme.bodyColor,
+                                textAlign: TextAlign.justify),
+                            Icon(
+                              Icons.stop,
+                              color: HexColor(_theme.bodyColor),
+                            )
+                          ]),
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Text("Body Color : " + _theme.bodyColor,
-                              textAlign: TextAlign.justify),
+                          child: Row(children: [
+                            Text(
+                                "Text Color AppBar : " + _theme.textColorAppBar,
+                                textAlign: TextAlign.justify),
+                            Icon(
+                              Icons.stop,
+                              color: HexColor(_theme.textColorAppBar),
+                            )
+                          ]),
                         ),
                         Container(
                           padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Text(
-                              "Text Color AppBar : " + _theme.textColorAppBar,
-                              textAlign: TextAlign.justify),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Text(
-                              "Text Color Body : " + _theme.secondaryColor,
-                              textAlign: TextAlign.justify),
+                          child: Row(children: [
+                            Text("Text Color Body : " + _theme.textColorBody,
+                                textAlign: TextAlign.justify),
+                            Icon(
+                              Icons.stop,
+                              color: HexColor(_theme.textColorBody),
+                            )
+                          ]),
                         ),
                       ],
                     ),

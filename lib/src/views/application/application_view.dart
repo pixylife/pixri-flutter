@@ -138,34 +138,7 @@ class ApplicationViewState extends State<ApplicationView> {
                                 ),
                               ),
                             ),
-                            Container(
-                              width: 200,
-                              height: 100,
-                              child: new InkWell(
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  color: Colors.orangeAccent,
-                                  elevation: 10,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      ListTile(
-                                        leading: Icon(Icons.pages, size: 70),
-                                        title: Text('Pages',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                        subtitle: Text(
-                                            _appInfo.pageCount.toString(),
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                           
                             Container(
                               width: 200,
                               height: 100,
