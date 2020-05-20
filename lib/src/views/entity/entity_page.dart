@@ -9,8 +9,7 @@ class EntityPage extends StatefulWidget {
   EntityPageStage createState() => EntityPageStage();
   Application application;
 
-
-  EntityPage({this.application});
+  EntityPage(this.application);
 }
 
 class EntityPageStage extends State<EntityPage> {
@@ -24,21 +23,29 @@ class EntityPageStage extends State<EntityPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Entities", style: TextStyle(color: Colors.white)),
-        ),
-        body: EntityListView(application: widget.application,),
-        floatingActionButton: FloatingActionButton(
-          elevation: 10,
-          backgroundColor: Theme.of(context).primaryColor,
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => EntityForm(application:  widget.application)),
+    return WillPopScope(
+      onWillPop: () {
+        return Future.value(false);
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Entities", style: TextStyle(color: Colors.white)),
           ),
-          child: Icon(Icons.add),
+          body: EntityListView(
+            widget.application,
+          ),
+          floatingActionButton: FloatingActionButton(
+            elevation: 10,
+            backgroundColor: Theme.of(context).primaryColor,
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      EntityForm(widget.application)),
+            ),
+            child: Icon(Icons.add),
+          ),
         ),
       ),
     );

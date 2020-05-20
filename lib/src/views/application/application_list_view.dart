@@ -20,54 +20,49 @@ class ApplicationListViewState extends State<ApplicationListView> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        return Future.value(false);
-      },
-      child: Scaffold(
-        body: SafeArea(
-          child: Container(
-            child: RefreshIndicator(
-              onRefresh: () => apiService.getListOfApplication(),
-              child: FutureBuilder(
-                future: apiService.getListOfApplication(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Application>> snapshot) {
-                  print(snapshot);
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          child: RefreshIndicator(
+            onRefresh: () => apiService.getListOfApplication(),
+            child: FutureBuilder(
+              future: apiService.getListOfApplication(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Application>> snapshot) {
+                print(snapshot);
 
-                  if (snapshot.hasError) {
-                    print(snapshot.error.toString());
+                if (snapshot.hasError) {
+                  print(snapshot.error.toString());
 
-                    /// put an alert and
-                    /// show text as 'something went wrong'
+                  /// put an alert and
+                  /// show text as 'something went wrong'
 //                return Center(child: Text("Something wrong with message: ${snapshot.error.toString()}"));
-                    return Container(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.error, color: Colors.red),
-                              Text("Something went wrong"),
-                              SizedBox(height: 5),
-                              Text("Pull down to refresh",
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 10)),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  } else if (snapshot.connectionState == ConnectionState.done) {
-                    List<Application> appList = snapshot.data;
-                    return _buildListView(appList);
-                  } else {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                },
-              ),
+                  return Container(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(Icons.error, color: Colors.red),
+                            Text("Something went wrong"),
+                            SizedBox(height: 5),
+                            Text("Pull down to refresh",
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 10)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  List<Application> appList = snapshot.data;
+                  return _buildListView(appList);
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
             ),
           ),
         ),

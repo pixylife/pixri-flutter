@@ -132,7 +132,9 @@ class ApplicationViewState extends State<ApplicationView> {
                                         "Primary Color : " +
                                             widget
                                                 .application.theme.primaryColor,
-                                        textAlign: TextAlign.justify),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal)),
                                     Icon(
                                       Icons.stop,
                                       color: HexColor(widget
@@ -148,7 +150,9 @@ class ApplicationViewState extends State<ApplicationView> {
                                         "Secondary Color : " +
                                             widget.application.theme
                                                 .secondaryColor,
-                                        textAlign: TextAlign.justify),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal)),
                                     Icon(
                                       Icons.stop,
                                       color: HexColor(widget
@@ -163,7 +167,9 @@ class ApplicationViewState extends State<ApplicationView> {
                                     Text(
                                         "Body Color : " +
                                             widget.application.theme.bodyColor,
-                                        textAlign: TextAlign.justify),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal)),
                                     Icon(
                                       Icons.stop,
                                       color: HexColor(
@@ -179,7 +185,9 @@ class ApplicationViewState extends State<ApplicationView> {
                                         "Text Color AppBar : " +
                                             widget.application.theme
                                                 .textColorAppBar,
-                                        textAlign: TextAlign.justify),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal)),
                                     Icon(
                                       Icons.stop,
                                       color: HexColor(widget
@@ -195,7 +203,9 @@ class ApplicationViewState extends State<ApplicationView> {
                                         "Text Color Body : " +
                                             widget.application.theme
                                                 .textColorBody,
-                                        textAlign: TextAlign.justify),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.normal)),
                                     Icon(
                                       Icons.stop,
                                       color: HexColor(widget
@@ -219,8 +229,8 @@ class ApplicationViewState extends State<ApplicationView> {
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => EntityPage(
-                                          application: widget.application)),
+                                      builder: (context) =>
+                                          EntityPage(widget.application)),
                                 ),
                                 child: Card(
                                   shape: RoundedRectangleBorder(

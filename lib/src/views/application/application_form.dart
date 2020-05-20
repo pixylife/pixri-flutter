@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pixri/src/model/application.dart';
 import 'package:pixri/src/api/application_api_service.dart';
 import 'package:pixri/src/views/application/application_list_view.dart';
+import 'package:pixri/src/views/application/application_page.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
@@ -25,9 +26,7 @@ class ApplicationFromState extends State<ApplicationForm> {
   TextEditingController _controllerPurpose = TextEditingController();
   bool _isFieldBaseUrlValid;
   TextEditingController _controllerBaseUrl = TextEditingController();
-    TextEditingController _controllerCompany = TextEditingController();
-
-
+  TextEditingController _controllerCompany = TextEditingController();
 
   @override
   void initState() {
@@ -50,7 +49,11 @@ class ApplicationFromState extends State<ApplicationForm> {
       key: _scaffoldState,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        title: Text(widget.application == null ? "Create new Application" : "Edit Application", style: TextStyle(color: Colors.white)),
+        title: Text(
+            widget.application == null
+                ? "Create new Application"
+                : "Edit Application",
+            style: TextStyle(color: Colors.white)),
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -71,7 +74,9 @@ class ApplicationFromState extends State<ApplicationForm> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: RaisedButton(
                       child: Text(
-                        widget.application == null ? "Create Applicaton": "Update Application ",
+                        widget.application == null
+                            ? "Create Applicaton"
+                            : "Update Application ",
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -90,7 +95,8 @@ class ApplicationFromState extends State<ApplicationForm> {
                         }
                         setState(() => _isLoading = true);
                         String name = _controllerName.text.toString();
-                        String description = _controllerDescription.text.toString();
+                        String description =
+                            _controllerDescription.text.toString();
                         String purpose = _controllerPurpose.text.toString();
                         String base_url = _controllerBaseUrl.text.toString();
                         String company = _controllerCompany.text.toString();
@@ -103,10 +109,15 @@ class ApplicationFromState extends State<ApplicationForm> {
                           company: company,
                         );
                         if (widget.application == null) {
-                          _apiService.createApplication(application).then((isSuccess) {
+                          _apiService
+                              .createApplication(application)
+                              .then((isSuccess) {
                             setState(() => _isLoading = false);
                             if (isSuccess) {
-                              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>ApplicationListView()));
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ApplicationPage()));
                             } else {
                               _scaffoldState.currentState.showSnackBar(SnackBar(
                                 content: Text("Submit data failed"),
@@ -116,10 +127,16 @@ class ApplicationFromState extends State<ApplicationForm> {
                         } else {
                           application.id = widget.application.id;
 
-                          _apiService.updateApplication(application).then((isSuccess) {
+                          _apiService
+                              .updateApplication(application)
+                              .then((isSuccess) {
                             setState(() => _isLoading = false);
                             if (isSuccess) {
-                              Navigator.pop(_scaffoldState.currentState.context);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ApplicationListView()));
                             } else {
                               _scaffoldState.currentState.showSnackBar(SnackBar(
                                 content: Text("Update data failed"),
@@ -136,19 +153,19 @@ class ApplicationFromState extends State<ApplicationForm> {
             ),
             _isLoading
                 ? Stack(
-              children: <Widget>[
-                Opacity(
-                  opacity: 0.3,
-                  child: ModalBarrier(
-                    dismissible: false,
-                    color: Colors.grey,
-                  ),
-                ),
-                Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ],
-            )
+                    children: <Widget>[
+                      Opacity(
+                        opacity: 0.3,
+                        child: ModalBarrier(
+                          dismissible: false,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ],
+                  )
                 : Container(),
           ],
         ),
@@ -164,7 +181,9 @@ class ApplicationFromState extends State<ApplicationForm> {
 //      keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: "Application Name",
-        errorText: _isFieldNameValid == null || _isFieldNameValid ? null : "Name is required",
+        errorText: _isFieldNameValid == null || _isFieldNameValid
+            ? null
+            : "Name is required",
       ),
       onChanged: (value) {
         bool isFieldValid = value.trim().isNotEmpty;
@@ -183,7 +202,9 @@ class ApplicationFromState extends State<ApplicationForm> {
 //      keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: "Description",
-        errorText: _isFieldDescriptionValid == null || _isFieldDescriptionValid ? null : "Description is required",
+        errorText: _isFieldDescriptionValid == null || _isFieldDescriptionValid
+            ? null
+            : "Description is required",
       ),
       onChanged: (value) {
         bool isFieldValid = value.trim().isNotEmpty;
@@ -202,7 +223,9 @@ class ApplicationFromState extends State<ApplicationForm> {
 //      keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: "Purpose",
-        errorText: _isFieldPurposeValid == null || _isFieldPurposeValid ? null : "Purpose is required",
+        errorText: _isFieldPurposeValid == null || _isFieldPurposeValid
+            ? null
+            : "Purpose is required",
       ),
       onChanged: (value) {
         bool isFieldValid = value.trim().isNotEmpty;
@@ -221,7 +244,9 @@ class ApplicationFromState extends State<ApplicationForm> {
 //      keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: "Base URL",
-        errorText: _isFieldBaseUrlValid == null || _isFieldBaseUrlValid ? null : "Base URL is required",
+        errorText: _isFieldBaseUrlValid == null || _isFieldBaseUrlValid
+            ? null
+            : "Base URL is required",
       ),
       onChanged: (value) {
         bool isFieldValid = value.trim().isNotEmpty;
@@ -231,7 +256,8 @@ class ApplicationFromState extends State<ApplicationForm> {
       },
     );
   }
-   Widget _buildTextFieldCompany() {
+
+  Widget _buildTextFieldCompany() {
     return TextField(
       keyboardType: TextInputType.multiline,
       maxLines: null,
@@ -239,8 +265,6 @@ class ApplicationFromState extends State<ApplicationForm> {
         labelText: "Company",
       ),
       controller: _controllerCompany,
-     
     );
   }
-
 }

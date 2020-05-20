@@ -19,10 +19,14 @@ class ApplicationPageStage extends State<ApplicationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Applications", style: TextStyle(color: Colors.white)),
+    return WillPopScope(
+      onWillPop: () {
+        return Future.value(false);
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Applications", style: TextStyle(color: Colors.white)),
 //          actions: <Widget>[
 //            IconButton(
 //              onPressed: () => Navigator.push(
@@ -32,17 +36,18 @@ class ApplicationPageStage extends State<ApplicationPage> {
 //              icon: Icon(Icons.add, color: Colors.white),
 //            )
 //          ],
-        ),
-          body: ApplicationListView(),
-        floatingActionButton: FloatingActionButton(
-          elevation: 10,
-          backgroundColor: Theme.of(context).primaryColor,
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => ApplicationForm()),
           ),
-          child: Icon(Icons.add),
+          body: ApplicationListView(),
+          floatingActionButton: FloatingActionButton(
+            elevation: 10,
+            backgroundColor: Theme.of(context).primaryColor,
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => ApplicationForm()),
+            ),
+            child: Icon(Icons.add),
+          ),
         ),
       ),
     );
