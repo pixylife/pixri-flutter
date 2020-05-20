@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pixri/src/api/entity_api_service.dart';
+import 'package:pixri/src/views/application/application_view.dart';
 import 'package:pixri/src/views/entity/entity_form.dart';
 import 'package:pixri/src/model/application.dart';
 import 'package:pixri/src/views/entity/entity_list_view.dart';
@@ -25,7 +26,10 @@ class EntityPageStage extends State<EntityPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        return Future.value(false);
+        return Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ApplicationView(widget.application)));
       },
       child: SafeArea(
         child: Scaffold(

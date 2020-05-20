@@ -3,7 +3,7 @@ import 'package:pixri/src/api/theme_api_service.dart';
 import 'package:pixri/src/model/application.dart';
 import 'package:pixri/src/model/theme.dart' as AppTheme;
 import 'package:pixri/src/util/HexColor.dart';
-
+import 'package:pixri/src/views/application/application_view.dart';
 
 class ThemeListView extends StatefulWidget {
   Application application;
@@ -113,12 +113,15 @@ class ThemeListViewState extends State<ThemeListView> {
                                     .updateApplicationTheme(application)
                                     .then((isSuccess) {
                                   if (isSuccess) {
-                                    setState(() {});
                                     Scaffold.of(this.context).showSnackBar(
                                         SnackBar(
                                             content: Text("Theme Selected")));
-                                             Navigator.pop(context);
-
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ApplicationView(
+                                                    widget.application)));
                                   } else {
                                     Scaffold.of(this.context).showSnackBar(
                                         SnackBar(content: Text("Failed")));

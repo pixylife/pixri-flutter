@@ -127,8 +127,8 @@ class EntityListViewState extends State<EntityListView> {
                                       onPressed: () => Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                EntityView(entity: _entity)),
+                                            builder: (context) => EntityView(
+                                                _entity, widget.application)),
                                       ),
                                     ),
                                     IconButton(

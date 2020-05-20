@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:pixri/src/model/application.dart';
 import 'package:pixri/src/model/entity_info.dart';
 import 'package:pixri/src/model/entity.dart';
 import 'package:pixri/src/api/entity_api_service.dart';
+import 'package:pixri/src/views/entity/entity_page.dart';
 import 'package:pixri/src/views/fields/field_page.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
 class EntityView extends StatefulWidget {
   Entity entity;
+  Application application;
 
-  EntityView({@required this.entity});
+  EntityView(@required this.entity, @required this.application);
 
   @override
   EntityViewState createState() => EntityViewState();
@@ -31,7 +34,7 @@ class EntityViewState extends State<EntityView> {
     apiService
         .getEntityInfo(widget.entity.id)
         .then((EntityInfo value) => setState(() {
-      _entityInfo = value;
+              _entityInfo = value;
             }));
 
     super.didChangeDependencies();
@@ -39,83 +42,92 @@ class EntityViewState extends State<EntityView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldState,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        title: Text(widget.entity != null ? widget.entity.name : "",
-            style: TextStyle(color: Colors.white)),
-      ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        child: ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    child: Text("Description",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold)),
-                  ),
-                  widget.entity.description != null &&
-                          widget.entity.description.isNotEmpty
-                      ? Container(
-                          padding: const EdgeInsets.all(8),
-                          child: Text(widget.entity.description,
-                              textAlign: TextAlign.justify),
-                        )
-                      : Container(),
-                  _entityInfo != null
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 200,
-                              height: 100,
-                              child: new InkWell(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => FieldPage(
-                                          entity: widget.entity)),
-                                ),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                color: Colors.orangeAccent,
-                                elevation: 10,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    ListTile(
-                                      leading: Icon(Icons.add_to_home_screen,
-                                          size: 70),
-                                      title: Text('Fields',
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      subtitle: Text(
-                                          _entityInfo.fieldCount.toString(),
-                                          style:
-                                              TextStyle(color: Colors.white)),
+    return WillPopScope(
+      onWillPop: () {
+        return Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EntityPage(widget.application)));
+      },
+      child: Scaffold(
+        key: _scaffoldState,
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
+          title: Text(widget.entity != null ? widget.entity.name : "",
+              style: TextStyle(color: Colors.white)),
+        ),
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      child: Text("Description",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
+                    ),
+                    widget.entity.description != null &&
+                            widget.entity.description.isNotEmpty
+                        ? Container(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(widget.entity.description,
+                                textAlign: TextAlign.justify),
+                          )
+                        : Container(),
+                    _entityInfo != null
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 200,
+                                height: 100,
+                                child: new InkWell(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FieldPage(
+                                            widget.entity, widget.application)),
+                                  ),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
                                     ),
-                                  ],
+                                    color: Colors.orangeAccent,
+                                    elevation: 10,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        ListTile(
+                                          leading: Icon(
+                                              Icons.add_to_home_screen,
+                                              size: 70),
+                                          title: Text('Fields',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                          subtitle: Text(
+                                              _entityInfo.fieldCount.toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Center(child: CircularProgressIndicator()),
-                ],
+                            ],
+                          )
+                        : Center(child: CircularProgressIndicator()),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:pixri/src/model/application.dart';
 import 'package:pixri/src/model/field.dart';
 import 'package:pixri/src/model/entity.dart';
 import 'package:pixri/src/api/field_api_service.dart';
-
+import 'package:pixri/src/views/fields/field_page.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
 class FieldForm extends StatefulWidget {
   Field field;
   Entity entity;
+  Application application;
 
-  FieldForm({this.entity});
-  FieldForm.fromField({this.field});
+  FieldForm(this.entity, this.application);
+  FieldForm.fromField(this.field, this.entity, this.application);
 
   @override
   FieldFromState createState() => FieldFromState();
@@ -24,9 +26,8 @@ class FieldFromState extends State<FieldForm> {
   TextEditingController _controllerName = TextEditingController();
   bool _isFieldUINameValid;
   TextEditingController _controllerUIName = TextEditingController();
-  var _types = ["Text","Number","Float","Date "];
+  var _types = ["Text", "Number", "Float", "Date "];
   var _currentItemSelected = "Text";
-
 
   @override
   void initState() {
@@ -45,7 +46,8 @@ class FieldFromState extends State<FieldForm> {
       key: _scaffoldState,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        title: Text(widget.field == null ? "Create new Field" : "Edit Field", style: TextStyle(color: Colors.white)),
+        title: Text(widget.field == null ? "Create new Field" : "Edit Field",
+            style: TextStyle(color: Colors.white)),
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -60,19 +62,17 @@ class FieldFromState extends State<FieldForm> {
                   _buildTextFieldName(),
                   _buildDropDownType(),
                   _buildTextFieldUIName(),
-
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: RaisedButton(
                       child: Text(
-                        widget.field == null ? "Create Field": "Update Field ",
+                        widget.field == null ? "Create Field" : "Update Field ",
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
                       onPressed: () {
-                        if (_isFieldNameValid == null ||
-                            !_isFieldNameValid ) {
+                        if (_isFieldNameValid == null || !_isFieldNameValid) {
                           _scaffoldState.currentState.showSnackBar(
                             SnackBar(
                               content: Text("Please fill all fields"),
@@ -88,15 +88,17 @@ class FieldFromState extends State<FieldForm> {
                         Field field = Field(
                             name: name,
                             type: type,
-                            uiName : uiName,
-                            entityId: widget.entity.id
-
-                        );
+                            uiName: uiName,
+                            entityId: widget.entity.id);
                         if (widget.field == null) {
                           _apiService.createField(field).then((isSuccess) {
                             setState(() => _isLoading = false);
                             if (isSuccess) {
-                              Navigator.pop(_scaffoldState.currentState.context);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FieldPage(
+                                          widget.entity, widget.application)));
                             } else {
                               _scaffoldState.currentState.showSnackBar(SnackBar(
                                 content: Text("Submit data failed"),
@@ -109,7 +111,11 @@ class FieldFromState extends State<FieldForm> {
                           _apiService.updateField(field).then((isSuccess) {
                             setState(() => _isLoading = false);
                             if (isSuccess) {
-                              Navigator.pop(_scaffoldState.currentState.context);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FieldPage(
+                                          widget.entity, widget.application)));
                             } else {
                               _scaffoldState.currentState.showSnackBar(SnackBar(
                                 content: Text("Update data failed"),
@@ -126,19 +132,19 @@ class FieldFromState extends State<FieldForm> {
             ),
             _isLoading
                 ? Stack(
-              children: <Widget>[
-                Opacity(
-                  opacity: 0.3,
-                  child: ModalBarrier(
-                    dismissible: false,
-                    color: Colors.grey,
-                  ),
-                ),
-                Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ],
-            )
+                    children: <Widget>[
+                      Opacity(
+                        opacity: 0.3,
+                        child: ModalBarrier(
+                          dismissible: false,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ],
+                  )
                 : Container(),
           ],
         ),
@@ -154,7 +160,9 @@ class FieldFromState extends State<FieldForm> {
 //      keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: "Field Name",
-        errorText: _isFieldNameValid == null || _isFieldNameValid ? null : "Name is required",
+        errorText: _isFieldNameValid == null || _isFieldNameValid
+            ? null
+            : "Name is required",
       ),
       onChanged: (value) {
         bool isFieldValid = value.trim().isNotEmpty;
@@ -173,7 +181,9 @@ class FieldFromState extends State<FieldForm> {
 //      keyboardType: TextInputType.text,
       decoration: InputDecoration(
         labelText: "Field UI-Name",
-        errorText: _isFieldUINameValid == null || _isFieldUINameValid ? null : "UI-Name is required",
+        errorText: _isFieldUINameValid == null || _isFieldUINameValid
+            ? null
+            : "UI-Name is required",
       ),
       onChanged: (value) {
         bool isFieldValid = value.trim().isNotEmpty;
@@ -184,21 +194,23 @@ class FieldFromState extends State<FieldForm> {
     );
   }
 
-
- Widget _buildDropDownType() {
+  Widget _buildDropDownType() {
     return DropdownButtonFormField<String>(
-      items: _types.map((String dropDownItem){
-          return DropdownMenuItem<String>(value: dropDownItem,child: Text(dropDownItem),);
+      items: _types.map((String dropDownItem) {
+        return DropdownMenuItem<String>(
+          value: dropDownItem,
+          child: Text(dropDownItem),
+        );
       }).toList(),
-            decoration: InputDecoration(
+      decoration: InputDecoration(
         labelText: "Field Type",
       ),
-      onChanged: (String newValueSelected){
+      onChanged: (String newValueSelected) {
         setState(() {
           this._currentItemSelected = newValueSelected;
         });
-      },value: _currentItemSelected,
+      },
+      value: _currentItemSelected,
     );
- }
-
+  }
 }

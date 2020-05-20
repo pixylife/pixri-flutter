@@ -5,16 +5,14 @@ import 'package:pixri/src/api/base_api.dart';
 import 'package:http/http.dart' show Client;
 import 'dart:developer';
 
-
-class EntityApiService extends BaseApi{
+class EntityApiService extends BaseApi {
   Client client = Client();
 
-  Future<bool> createEntity(Entity data) async{
-
+  Future<bool> createEntity(Entity data) async {
     final response = await client.post(
       "$baseUrl/entitys",
       headers: {"content-type": "application/json"},
-      body:entityToJson(data),
+      body: entityToJson(data),
     );
 
     if (response.statusCode == 200) {
@@ -38,7 +36,7 @@ class EntityApiService extends BaseApi{
 
   Future<bool> updateEntity(Entity data) async {
     final response = await client.put(
-      "$baseUrl/entitys/${data.id}",
+      "$baseUrl/entitys",
       headers: {"content-type": "application/json"},
       body: entityToJson(data),
     );
@@ -52,14 +50,12 @@ class EntityApiService extends BaseApi{
   Future<Entity> getEntity(int id) async {
     final response = await client.get("$baseUrl/entitys/$id");
 
-
     if (response.statusCode == 200) {
       return entityFromJson(response.body);
     } else {
       return null;
     }
   }
-
 
   Future<List<Entity>> getListOfEntity() async {
     final response = await client.get("$baseUrl/entitys");
@@ -87,6 +83,4 @@ class EntityApiService extends BaseApi{
       return null;
     }
   }
-
-
 }

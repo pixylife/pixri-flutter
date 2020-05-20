@@ -7,7 +7,7 @@ import 'package:pixri/src/views/entity/entity_page.dart';
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
 class EntityForm extends StatefulWidget {
-  Entity entity = new Entity();
+  Entity entity;
   Application application = new Application();
 
   EntityForm(this.application);

@@ -33,7 +33,7 @@ class ApplicationApiService extends BaseApi {
 
   Future<bool> updateApplication(Application data) async {
     final response = await client.put(
-      "$baseUrl/applications/${data.id}",
+      "$baseUrl/applications",
       headers: {"content-type": "application/json"},
       body: applicationToJson(data),
     );
