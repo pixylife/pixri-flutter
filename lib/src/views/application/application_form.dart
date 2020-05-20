@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixri/src/model/application.dart';
 import 'package:pixri/src/api/application_api_service.dart';
+import 'package:pixri/src/views/application/application_list_view.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
@@ -105,7 +106,7 @@ class ApplicationFromState extends State<ApplicationForm> {
                           _apiService.createApplication(application).then((isSuccess) {
                             setState(() => _isLoading = false);
                             if (isSuccess) {
-                              Navigator.pop(_scaffoldState.currentState.context);
+                              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>ApplicationListView()));
                             } else {
                               _scaffoldState.currentState.showSnackBar(SnackBar(
                                 content: Text("Submit data failed"),

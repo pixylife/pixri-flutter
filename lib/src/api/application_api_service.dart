@@ -1,15 +1,12 @@
-import 'dart:convert';
 import 'package:pixri/src/model/application.dart';
 import 'package:pixri/src/model/application_info.dart';
 import 'package:pixri/src/api/base_api.dart';
 import 'package:http/http.dart' show Client;
-import 'dart:developer';
 
-class ApplicationApiService extends BaseApi{
+class ApplicationApiService extends BaseApi {
   Client client = Client();
 
-  Future<bool> createApplication(Application data) async{
-
+  Future<bool> createApplication(Application data) async {
     final response = await client.post(
       "$baseUrl/applications",
       headers: {"content-type": "application/json"},
@@ -50,7 +47,6 @@ class ApplicationApiService extends BaseApi{
   Future<Application> getApplication(int id) async {
     final response = await client.get("$baseUrl/applications/$id");
 
-
     if (response.statusCode == 200) {
       return applicationFromJson(response.body);
     } else {
@@ -58,10 +54,10 @@ class ApplicationApiService extends BaseApi{
     }
   }
 
-
   Future<List<Application>> getListOfApplication() async {
     final response = await client.get("$baseUrl/applications");
     if (response.statusCode == 200) {
+      print("API - ${response.body}");
       return applicationListFromJson(response.body);
     } else {
       return null;
@@ -76,5 +72,4 @@ class ApplicationApiService extends BaseApi{
       return null;
     }
   }
-
 }

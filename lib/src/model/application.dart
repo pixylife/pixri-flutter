@@ -39,8 +39,6 @@ class Application {
     company = json['company'];
     selectedTheme = json['selected_theme'];
     theme = json['theme'] != null ? new Theme.fromJson(json['theme']) : null;
-
-    print("XXX"+theme.primaryColor);
   }
 
   Map<String, dynamic> toJson() {

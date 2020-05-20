@@ -4,7 +4,6 @@ import 'package:pixri/src/model/application.dart';
 import 'package:pixri/src/model/theme.dart' as AppTheme;
 import 'package:pixri/src/util/HexColor.dart';
 
-final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
 class ThemeListView extends StatefulWidget {
   Application application;
@@ -27,7 +26,6 @@ class ThemeListViewState extends State<ThemeListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldState,
       appBar: AppBar(
         title: Text("Themes", style: TextStyle(color: Colors.white)),
       ),
@@ -119,8 +117,8 @@ class ThemeListViewState extends State<ThemeListView> {
                                     Scaffold.of(this.context).showSnackBar(
                                         SnackBar(
                                             content: Text("Theme Selected")));
-                                    Navigator.pop(
-                                        _scaffoldState.currentState.context);
+                                             Navigator.pop(context);
+
                                   } else {
                                     Scaffold.of(this.context).showSnackBar(
                                         SnackBar(content: Text("Failed")));
