@@ -97,7 +97,7 @@ class ThemeListViewState extends State<ThemeListView> {
                 child: new InkWell(
                   onTap: () => showDialog(
                       context: context,
-                      builder: (context) {
+                      builder: (context2) {
                         return AlertDialog(
                           title: Text("Info"),
                           content:
@@ -106,16 +106,14 @@ class ThemeListViewState extends State<ThemeListView> {
                             FlatButton(
                               child: Text("Yes"),
                               onPressed: () {
-                                Navigator.pop(context);
                                 Application application = widget.application;
                                 application.selectedTheme = _theme.id;
                                 apiService
                                     .updateApplicationTheme(application)
                                     .then((isSuccess) {
                                   if (isSuccess) {
-                                    Scaffold.of(this.context).showSnackBar(
-                                        SnackBar(
-                                            content: Text("Theme Selected")));
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                        content: Text("Theme Selected")));
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
@@ -123,8 +121,9 @@ class ThemeListViewState extends State<ThemeListView> {
                                                 ApplicationView(
                                                     widget.application)));
                                   } else {
-                                    Scaffold.of(this.context).showSnackBar(
+                                    Scaffold.of(context).showSnackBar(
                                         SnackBar(content: Text("Failed")));
+                                    Navigator.pop(context2);
                                   }
                                 });
                               },

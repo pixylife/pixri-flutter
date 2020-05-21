@@ -1,6 +1,6 @@
 
 
 class BaseApi {
-  final String baseUrl = "http://192.168.8.104:5001/api";
+  final String baseUrl = "http://127.0.0.1:5001/api";
 
 }
