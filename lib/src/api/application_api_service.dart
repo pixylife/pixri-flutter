@@ -57,6 +57,7 @@ class ApplicationApiService extends BaseApi {
   Future<List<Application>> getListOfApplication() async {
     final response = await client.get("$baseUrl/applications");
     if (response.statusCode == 200) {
+      print("API : ${response.body}");
       return applicationListFromJson(response.body);
     } else {
       return null;

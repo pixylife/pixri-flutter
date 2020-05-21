@@ -6,6 +6,7 @@ import 'package:pixri/src/views/application/application_page.dart';
 import 'package:pixri/src/views/theme/theme_list_view.dart';
 import 'package:pixri/src/views/entity/entity_page.dart';
 import 'package:pixri/src/util/HexColor.dart';
+import 'dart:js' as js;
 
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
@@ -224,6 +225,31 @@ class ApplicationViewState extends State<ApplicationView> {
                               ),
                             ],
                           )
+                        : Container(),
+                    widget.application.github != null &&
+                            widget.application.github.isNotEmpty
+                        ? Container(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Text("Github url :",
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                          )
+                        : Container(),
+                    widget.application.github != null &&
+                            widget.application.github.isNotEmpty
+                        ? Container(
+                            padding: const EdgeInsets.all(8),
+                            child: FlatButton(
+                              child: Text(widget.application.github,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.blueAccent)),
+                              onPressed: () {
+                                js.context.callMethod(
+                                    "open", [widget.application.github]);
+                              },
+                            ))
                         : Container(),
                     _appInfo != null
                         ? Row(

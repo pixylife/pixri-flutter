@@ -13,6 +13,7 @@ class Application {
   String company;
   int selectedTheme;
   Theme theme;
+  String github;
 
   Application(
       {this.id,
@@ -24,7 +25,8 @@ class Application {
       this.baseURL,
       this.company,
       this.selectedTheme,
-      this.theme});
+      this.theme,
+      this.github});
 
   Application.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -39,6 +41,7 @@ class Application {
     company = json['company'];
     selectedTheme = json['selected_theme'];
     theme = json['theme'] != null ? new Theme.fromJson(json['theme']) : null;
+    github = json['github_url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -57,6 +60,8 @@ class Application {
     if (this.theme != null) {
       data['theme'] = this.theme.toJson();
     }
+    data['github_url'] = this.github;
+
     return data;
   }
 }
