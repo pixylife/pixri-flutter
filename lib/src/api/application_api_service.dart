@@ -72,4 +72,16 @@ class ApplicationApiService extends BaseApi {
       return null;
     }
   }
+
+  Future<bool> generateApplication(int id) async {
+    final response = await client.post(
+      "$baseUrl/applications/generate/$id",
+      headers: {"content-type": "application/json"},
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

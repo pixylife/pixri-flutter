@@ -22,6 +22,9 @@ class ApplicationView extends StatefulWidget {
 class ApplicationViewState extends State<ApplicationView> {
   ApplicationApiService apiService;
   ApplicationInfo _appInfo;
+  bool _isLoading = false;
+    ApplicationApiService _apiService = ApplicationApiService();
+
 
   @override
   void initState() {
@@ -73,7 +76,29 @@ class ApplicationViewState extends State<ApplicationView> {
                             color: Colors.white,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                        setState(() => _isLoading = true);
+                   
+                        if (widget.application == null) {
+                          _apiService
+                              .generateApplication(widget.application.id)
+                              .then((isSuccess) {
+                            setState(() => _isLoading = false);
+                            if (isSuccess) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ApplicationView(widget.application)));
+                            } else {
+                              _scaffoldState.currentState.showSnackBar(SnackBar(
+                                content: Text("Application generation failed"),
+                              ));
+                            }
+                          });
+                        } else {
+                            setState(() => _isLoading = false);
+
+                        }},
                       ),
                     ),
                     Container(
@@ -332,6 +357,22 @@ class ApplicationViewState extends State<ApplicationView> {
                   ],
                 ),
               ),
+               _isLoading
+                ? Stack(
+                    children: <Widget>[
+                      Opacity(
+                        opacity: 0.3,
+                        child: ModalBarrier(
+                          dismissible: false,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ],
+                  )
+                : Container(),
             ],
           ),
         ),
